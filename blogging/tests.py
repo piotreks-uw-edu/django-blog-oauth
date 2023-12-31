@@ -4,6 +4,8 @@ from blogging.models import Post
 from blogging.models import Category
 import datetime
 from django.utils.timezone import utc
+from django.contrib.sites.models import Site
+from allauth.socialaccount.models import SocialApp
 
 
 class FrontEndTestCase(TestCase):
@@ -14,16 +16,29 @@ class FrontEndTestCase(TestCase):
     ]
 
     def setUp(self):
+        super(FrontEndTestCase, self).setUp()
+
+        # Set up for posts
         self.now = datetime.datetime.utcnow().replace(tzinfo=utc)
         self.timedelta = datetime.timedelta(15)
         author = User.objects.get(pk=1)
         for count in range(1, 11):
             post = Post(title="Post %d Title" % count, text="foo", author=author)
             if count < 6:
-                # publish the first five posts
                 pubdate = self.now - self.timedelta * count
                 post.published_date = pubdate
             post.save()
+
+        # Set up for SocialApp (GitHub authentication)
+        site = Site.objects.get_current()
+        social_app = SocialApp.objects.create(
+            provider='github',
+            name='Django blog OAauth',
+            client_id='client-id',
+            secret='github-secret',
+            key=''
+        )
+        social_app.sites.add(site)
 
     def test_list_only_published(self):
         resp = self.client.get("/")
@@ -55,6 +70,7 @@ class PostTestCase(TestCase):
     ]
 
     def setUp(self):
+        super(PostTestCase, self).setUp()
         self.user = User.objects.get(pk=1)
 
     def test_string_representation(self):
