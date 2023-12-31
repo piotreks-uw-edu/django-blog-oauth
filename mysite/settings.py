@@ -40,12 +40,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "polling",
     "blogging",
-    'django.contrib.sites', # new
+    'django.contrib.sites',
 
-    'allauth', # new
-    'allauth.account', # new
-    'allauth.socialaccount', # new
-    'allauth.socialaccount.providers.github', # new    
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',    
 ]
 
 MIDDLEWARE = [
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'allauth.account.middleware.AccountMiddleware',  # new
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -126,7 +126,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "/static/"
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
